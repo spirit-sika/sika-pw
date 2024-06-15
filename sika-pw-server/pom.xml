@@ -90,6 +90,10 @@
             <groupId>cc.sika</groupId>
             <artifactId>sika-pw-pojo</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cc.sika</groupId>
+            <artifactId>sika-pw-common</artifactId>
+        </dependency>
         <!--test-->
         <dependency>
             <groupId>org.projectlombok</groupId>

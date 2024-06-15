@@ -19,6 +19,7 @@
     <modules>
         <module>sika-pw-server</module>
         <module>sika-pw-pojo</module>
+        <module>sika-pw-common</module>
     </modules>
 
     <properties>
@@ -72,6 +73,11 @@
             <dependency>
                 <groupId>cc.sika</groupId>
                 <artifactId>sika-pw-pojo</artifactId>
+                <version>${sika.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cc.sika</groupId>
+                <artifactId>sika-pw-common</artifactId>
                 <version>${sika.version}</version>
             </dependency>
         </dependencies>
