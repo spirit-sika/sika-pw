@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.sika.mapper.SikaPWMapper">
+    <sql id="passwordPO">
+        SELECT
+            sika_pw.`pw_id`, sika_pw.`domain_name`,sika_pw.`user_id`,
+            sika_pw.`account`, sika_pw.`password`, sika_pw.`create_by`,
+            sika_pw.`create_time`, sika_pw.`update_by`, sika_pw.`update_by`
+        FROM sika_pw
+    </sql>
+    <select id="selectAllPassword" resultType="cc.sika.po.SikaPW">
+        <include refid="passwordPO" />
+        ORDER BY sika_pw.`user_id`, sika_pw.`pw_id`
+    </select>
+    <select id="selectUserSavedPassword" resultType="cc.sika.po.SikaPW">
+        <include refid="passwordPO" />
+        WHERE `user_id` = #{userId}
+    </select>
+
+</mapper>
