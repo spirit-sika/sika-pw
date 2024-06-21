@@ -33,8 +33,7 @@ public class UserVO implements Serializable {
 
     private String email;
 
-    /**
-     * user sex, 0 is unknown, 1 is male, 2 is female
-     */
-    private Byte sex;
+    private String sex;
+
+    private String token;
 }
