@@ -1,5 +1,6 @@
 package cc.sika.service.impl;
 
+import cc.sika.constant.UserConstant;
 import cc.sika.dto.UserLoginDTO;
 import cc.sika.dto.UserRegisterDTO;
 import cc.sika.exception.IllegalPhoneException;
@@ -36,7 +37,7 @@ public class DefaultLoginServiceImpl implements LoginService {
         // 校验
         SikaUser sikaUser = checkForm(loginDTO);
         // 登录
-        if (loginDTO.getRememberMe()) {
+        if (!Objects.isNull(loginDTO.getRememberMe()) && loginDTO.getRememberMe()) {
             doLogin(sikaUser, true, TimeUnit.SECONDS, 60*60*24*15);
         }
         else {
@@ -63,6 +64,11 @@ public class DefaultLoginServiceImpl implements LoginService {
         if (insertResult != 1) {
             throw new RegisterException(RegisterException.REGISTER_ERROR);
         }
+
+        // 绑定用户身份
+        sikaUserMapper.bindingRole(registerUserPO.getUserId(), UserConstant.USER_ID);
+
+        // 登录
         doLogin(registerUserPO, true, TimeUnit.DAYS, 1);
         return toUserVO(registerUserPO);
     }
@@ -81,7 +87,7 @@ public class DefaultLoginServiceImpl implements LoginService {
             StpUtil.login(userId);
         }
         // 缓存用户信息
-        StpUtil.getSession().set(LoginException.CURRENT_USER, sikaUser);
+        StpUtil.getSession().set(UserConstant.CURRENT_USER + userId, sikaUser);
     }
 
     /**
@@ -114,7 +120,8 @@ public class DefaultLoginServiceImpl implements LoginService {
      * 将注册表单的对象转为用户PO
      */
     private SikaUser registerDTOToSikaUser(UserRegisterDTO registerDTO) {
-        SikaUser sikaUser = BeanUtil.copyProperties(registerDTO, SikaUser.class);
+        SikaUser sikaUser = BeanUtil.copyProperties(registerDTO, SikaUser.class, "password");
+        sikaUser.setPassword(SaSecureUtil.sha256(registerDTO.getPassword()));
         sikaUser.setCreateBy(registerDTO.getNickname());
         if (StpUtil.isLogin()) {
             SikaUser loginUser = (SikaUser)StpUtil.getSession().get(StpUtil.getLoginIdAsString());
