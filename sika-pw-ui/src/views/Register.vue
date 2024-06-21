@@ -55,7 +55,7 @@ const completeEmail = (queryString: string, cb: any) => {
           </el-radio-group>
         </el-form-item>
         <div class="ipt-item form-btn">
-          <el-button size="large" type="primary" @click="handleRegister">Sign In</el-button>
+          <el-button size="large" type="primary" @click="handleRegister">Sign Up</el-button>
           <el-button size="large" @click="resetForm(registerFormRef)">reset</el-button>
         </div>
       </el-form>
