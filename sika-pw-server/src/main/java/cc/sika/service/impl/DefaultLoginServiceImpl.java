@@ -60,7 +60,7 @@ public class DefaultLoginServiceImpl implements LoginService {
 
         SikaUser registerUserPO = registerDTOToSikaUser(registerDTO);
         int insertResult = sikaUserMapper.insert(registerUserPO);
-        if (insertResult != 0) {
+        if (insertResult != 1) {
             throw new RegisterException(RegisterException.REGISTER_ERROR);
         }
         doLogin(registerUserPO, true, TimeUnit.DAYS, 1);
