@@ -35,6 +35,14 @@
         )
     </insert>
 
+    <insert id="bindingRole">
+        INSERT INTO
+            `sika_user_role`(`user_id`, `role_id`)
+        values
+            (#{userId}, #{roleId})
+    </insert>
+
+
     <resultMap id="userPoMap" type="sikaUser">
         <id column="user_id" property="userId" javaType="Long" />
         <result column="nickname" property="nickname" javaType="string" />
@@ -64,4 +72,12 @@
         SELECT phone_number
         FROM `sika_user`
     </select>
+    <select id="selectUserRole" resultType="java.lang.String">
+        SELECT sr.role_name
+        FROM sika_role sr
+                 LEFT JOIN sika_user_role sur
+                           ON sur.role_id = sr.role_id
+        WHERE sur.user_id = #{userId};
+    </select>
+
 </mapper>

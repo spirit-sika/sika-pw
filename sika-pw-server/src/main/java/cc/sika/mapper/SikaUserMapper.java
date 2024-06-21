@@ -13,4 +13,8 @@ public interface SikaUserMapper {
     int insert(SikaUser sikaUser);
 
     List<String> selectAllPhoneNumber();
+
+    List<String> selectUserRole(@Param("userId")Long userId);
+
+    int bindingRole(@Param("userId") Long userId, @Param("roleId")Long roleId);
 }
