@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { useLoginHook } from '@/hooks/LoginHook';
+import {useLoginHook} from '@/hooks/LoginHook';
 import {ref} from "vue";
-const {registerDTO, handleRegister, resetRegister} = useLoginHook()
 import {emailSuffix} from "@/utils/email";
 
 // 表单清空处理
-import type { FormInstance } from 'element-plus'
+import type {FormInstance} from 'element-plus'
+
+const {registerDTO, handleRegister, resetRegister} = useLoginHook()
+
 const registerFormRef = ref<FormInstance>()
 const resetForm = (formRef: FormInstance | undefined) => {
   if(!formRef) return
@@ -52,10 +54,10 @@ const completeEmail = (queryString: string, cb: any) => {
             <el-radio :value="2" size="large">女</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item class="ipt-item">
-          <el-button type="primary" @click="handleRegister">Sign In</el-button>
-          <el-button @click="resetForm(registerFormRef)">reset</el-button>
-        </el-form-item>
+        <div class="ipt-item form-btn">
+          <el-button size="large" type="primary" @click="handleRegister">Sign In</el-button>
+          <el-button size="large" @click="resetForm(registerFormRef)">reset</el-button>
+        </div>
       </el-form>
     </div>
   </div>
@@ -73,10 +75,15 @@ const completeEmail = (queryString: string, cb: any) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(104, 108, 116, 0.1);
     width: 70vw;
     height: 70vh;
     border-radius: 15px;
+
+    .form-btn {
+      display: flex;
+      justify-content: space-evenly;
+    }
 
     @media (max-width: 750px) {
       :deep(.ipt-item) {
