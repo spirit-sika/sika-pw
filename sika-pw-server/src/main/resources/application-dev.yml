@@ -36,6 +36,8 @@ sika:
           max-idle: 10
           # 连接池中的最小空闲连接
           min-idle: 5
+
+
   ############## 接口文档 配置 ##############
   springdoc:
     swagger-ui:
@@ -48,7 +50,7 @@ sika:
     group-configs:
       - group: 'default'
         paths-to-match: '/**'
-        packages-to-scan: cc.sika.bookkeeping.controller
+        packages-to-scan: cc.sika.controller
   knife4j:
     enable: true
     setting:
