@@ -86,6 +86,18 @@ export const useLoginHook = () => {
         }
     }
 
+
+    const resetRegister = async () => {
+        registerDTO.value = {
+            email: "",
+            nickname: "",
+            password: "",
+            phoneNumber: "",
+            sex: 0
+
+        }
+    }
+
     onMounted(() => {
         getCaptcha().then()
     })
@@ -97,6 +109,7 @@ export const useLoginHook = () => {
         getCaptcha,
         handleLogin,
         handleLogout,
-        handleRegister
+        handleRegister,
+        resetRegister
     }
 }
