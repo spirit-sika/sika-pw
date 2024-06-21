@@ -1,7 +1,6 @@
 package cc.sika.service.impl;
 
 import cc.sika.constant.CacheConstant;
-import cc.sika.constant.CaptchaConstant;
 import cc.sika.exception.CaptchaException;
 import cc.sika.service.CaptchaService;
 import cc.sika.vo.CaptchaVO;
@@ -37,11 +36,12 @@ public class DefaultCaptchaImpl implements CaptchaService {
                 .build();
     }
 
+
     @Override
-    public boolean checkCaptcha(String key, String code) {
+    public void checkCaptcha(String key, String code) {
         /* 非法验证码 */
         if (!StringUtils.hasText(key)) {
-            throw new CaptchaException(CaptchaConstant.NON_KEY);
+            throw new CaptchaException(CaptchaException.NON_KEY);
         }
 
         String cacheCodeKey = CacheConstant.CODE_KEY_PREFIX + key;
@@ -50,17 +50,16 @@ public class DefaultCaptchaImpl implements CaptchaService {
         /* 未获取到验证码内容 */
         if (!StringUtils.hasText(codeInCache)) {
             stringRedisTemplate.delete(cacheCodeKey);
-            throw new CaptchaException(CaptchaConstant.EXPIRED_CODE);
+            throw new CaptchaException(CaptchaException.EXPIRED_CODE);
         }
 
         /* 忽略大小写校验验证码 */
         if (!codeInCache.equalsIgnoreCase(code)) {
             stringRedisTemplate.delete(cacheCodeKey);
-            throw new CaptchaException(CaptchaConstant.ERROR_CODE);
+            throw new CaptchaException(CaptchaException.ERROR_CODE);
         }
 
         stringRedisTemplate.delete(cacheCodeKey);
-        return true;
     }
 
     /**
