@@ -78,6 +78,14 @@ sika:
     type-aliases-package: cc.sika.bookkeeping.pojo
     configuration:
       log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  ############## 分页插件 配置(https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md) ##############
+  pagehelper:
+    helperDialect: mysql
+    supportMethodsArguments: true
+    params: count=countSql
+    propertyName: propertyValue
+    reasonable: false
+    defaultCount: true # 分页插件默认参数支持 default-count 形式，自定义扩展的参数，必须大小写一致
   ############## 日志级别 ##############
   logging:
     level:

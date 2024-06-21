@@ -77,9 +77,12 @@ mybatis:
 
 ############## PageHelper 配置 (文档: https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md) ##############
 pagehelper:
-  helperDialect: mysql
-  supportMethodsArguments: true
-  params: count=countSql
+  helperDialect: ${sika.pagehelper.helperDialect}
+  supportMethodsArguments: ${sika.pagehelper.supportMethodsArguments}
+  params: ${sika.pagehelper.params}
+  propertyName: ${sika.pagehelper.propertyName}
+  reasonable: ${sika.pagehelper.reasonable}
+  defaultCount: ${sika.pagehelper.defaultCount} # 分页插件默认参数支持 default-count 形式，自定义扩展的参数，必须大小写一致
 
 ############## 日志级别 ##############
 logging:
