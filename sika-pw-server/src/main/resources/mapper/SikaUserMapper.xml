@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.sika.mapper.SikaUserMapper">
+
+    <sql id="userPO">
+        SELECT
+            `user_id`, `nickname`, `password`,
+            `phone_number`, `email`, `sex`,
+            `create_by`, `create_time`,
+            `update_by`, `update_time`
+        FROM
+            sika_user
+    </sql>
+    <insert id="insert"
+            parameterType="sikaUser"
+            useGeneratedKeys="true"
+            keyProperty="userId"
+    >
+        INSERT INTO `sika_user` (
+            <if test="nickname != null and '' != nickname">nickname,</if>
+            <if test="password != null and '' != password">password,</if>
+            <if test="phoneNumber != null and '' != phoneNumber">phone_number,</if>
+            <if test="email != null and '' != email">email,</if>
+            <if test="sex != null">sex,</if>
+            <if test="createBy != null and '' != nickname">create_by,</if>
+            create_time
+        ) VALUES (
+            <if test="nickname != null and '' != nickname">#{nickname},</if>
+            <if test="password != null and '' != password">#{password},</if>
+            <if test="phoneNumber != null and '' != phoneNumber">#{phoneNumber},</if>
+            <if test="email != null and '' != email">#{email},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="createBy != null and '' != nickname">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <resultMap id="userPoMap" type="sikaUser">
+        <id column="user_id" property="userId" javaType="Long" />
+        <result column="nickname" property="nickname" javaType="string" />
+        <result column="password" property="password" javaType="string" />
+        <result column="phone_number" property="phoneNumber" javaType="string" />
+        <result column="email" property="email" javaType="string" />
+        <result column="sex" property="sex" javaType="Byte" />
+        <result column="create_by" property="createBy" javaType="string" />
+        <result column="create_time" property="createTime" javaType="java.time.LocalDateTime" />
+        <result column="update_by" property="updateBy" javaType="string" />
+        <result column="update_time" property="updateTime" javaType="java.time.LocalDateTime" />
+    </resultMap>
+
+    <select id="selectByPhoneAndPassword" resultMap="userPoMap">
+        <include refid="userPO" />
+        WHERE
+            `phone_number` = #{phoneNumber}
+        AND
+            `password` = #{password}
+    </select>
+    <select id="selectByPhone" resultType="cc.sika.po.SikaUser">
+        <include refid="userPO" />
+        WHERE
+        `phone_number` = #{phoneNumber}
+    </select>
+    <select id="selectAllPhoneNumber" resultType="java.lang.String">
+        SELECT phone_number
+        FROM `sika_user`
+    </select>
+</mapper>
