@@ -1,5 +1,6 @@
 package cc.sika;
 
+import cc.sika.constant.UserConstant;
 import cc.sika.mapper.SikaUserMapper;
 import cc.sika.po.SikaUser;
 import cn.dev33.satoken.secure.SaSecureUtil;
@@ -44,6 +45,12 @@ public class TestSikaUserMapper {
         SikaUser sikaUser = sikaUserMapper.selectByPhone("11111111111");
         assert sikaUser != null;
         assert sikaUser.getUserId() > 0;
+    }
+
+    @Test
+    void bindingRoleTest() {
+        int bindingResult = sikaUserMapper.bindingRole(5L, UserConstant.USER_ID);
+        assert bindingResult == 1;
     }
 
     private String phoneBuilder() {
