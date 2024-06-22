@@ -2,7 +2,7 @@
 import {useLoginHook} from "@/hooks/LoginHook";
 
 const loginHook = useLoginHook();
-const {loginDTO, captchaVO, handleLogin, getCaptcha} = loginHook
+const {loginDTO, captchaVO, handleLogin, getCaptcha, loginLoad} = loginHook
 
 </script>
 
@@ -41,7 +41,7 @@ const {loginDTO, captchaVO, handleLogin, getCaptcha} = loginHook
           </div>
 
           <div id="submit-button-cvr">
-            <button id="submit-button" @click="handleLogin">LOGIN</button>
+            <el-button id="submit-button" @click="handleLogin" :loading="loginLoad">LOGIN</el-button>
           </div>
 
           <div id="forgot-pass">
@@ -203,7 +203,9 @@ form {
 
     #submit-button-cvr {
       margin-top: 20px;
-
+      :deep(.el-button) {
+        height: 6vh;
+      }
       #submit-button {
         display: block;
         width: 100%;
@@ -216,6 +218,11 @@ form {
         border-radius: 25px;
         line-height: 1;
         cursor: pointer;
+        box-shadow: #6E6D6D 1px 2px 2px;
+      }
+
+      #submit-button:active {
+        box-shadow: none;
       }
     }
 
