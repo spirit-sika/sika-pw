@@ -59,4 +59,10 @@ public class UserController {
         StpUtil.logout();
         return Result.successMessage("退出登录成功!");
     }
+
+    @GetMapping("check-login")
+    @SaCheckLogin
+    public Result<String> checkLogin() {
+        return Result.success("用户已登录");
+    }
 }

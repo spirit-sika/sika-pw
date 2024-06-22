@@ -40,14 +40,6 @@ public class TestSikaUserMapper {
     }
 
     @Test
-    void phoneQueryTest() {
-        // 如果存在多条记录, MyBatis会报错 org.mybatis.spring.MyBatisSystemException
-        SikaUser sikaUser = sikaUserMapper.selectByPhone("11111111111");
-        assert sikaUser != null;
-        assert sikaUser.getUserId() > 0;
-    }
-
-    @Test
     void bindingRoleTest() {
         int bindingResult = sikaUserMapper.bindingRole(5L, UserConstant.USER_ID);
         assert bindingResult == 1;

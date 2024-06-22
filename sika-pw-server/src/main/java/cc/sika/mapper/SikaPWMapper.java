@@ -1,5 +1,6 @@
 package cc.sika.mapper;
 
+import cc.sika.dto.PasswordSearchDTO;
 import cc.sika.po.SikaPW;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,5 +18,13 @@ public interface SikaPWMapper {
      * 获取用户保存的密码
      * @return 密码po列表
      */
-    List<SikaPW> selectUserSavedPassword(@Param("userId") Long userId);
+    List<SikaPW> selectUserSavedPassword(PasswordSearchDTO passwordSearchDTO, @Param("userId") Long userId);
+
+    List<SikaPW> likeSelectUserSavedPassword(String condition, @Param("userId") Long userId);
+
+    int insertPassword(SikaPW po);
+
+    int deletePassword(@Param("pwId")Long pwId);
+
+    int updatePassword(SikaPW po);
 }

@@ -8,6 +8,7 @@ export const useLoginHook = () => {
 
     const userStore = useUserStore()
     const router = useRouter()
+    const loginLoad = ref<boolean>(false);
 
     const loginDTO = ref<UserDTO>({})
     const registerDTO = ref<UserRegisterDTO>({
@@ -32,7 +33,9 @@ export const useLoginHook = () => {
     }
 
     const handleLogin = async () => {
+        loginLoad.value = true;
         const loginResponse = await loginAPI(loginDTO.value)
+        loginLoad.value = false;
         if (loginResponse.code === 200) {
             const {data} = loginResponse
             userStore.setUserVO(data)
@@ -106,6 +109,7 @@ export const useLoginHook = () => {
         loginDTO,
         captchaVO,
         registerDTO,
+        loginLoad,
         getCaptcha,
         handleLogin,
         handleLogout,

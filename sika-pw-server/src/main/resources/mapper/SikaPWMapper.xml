@@ -5,16 +5,70 @@
         SELECT
             sika_pw.`pw_id`, sika_pw.`domain_name`,sika_pw.`user_id`,
             sika_pw.`account`, sika_pw.`password`, sika_pw.`create_by`,
-            sika_pw.`create_time`, sika_pw.`update_by`, sika_pw.`update_by`
+            sika_pw.`create_time`, sika_pw.`update_by`, sika_pw.`update_time`
         FROM sika_pw
     </sql>
+
+    <insert id="insertPassword" parameterType="sikaPW"
+            useGeneratedKeys="true" keyProperty="pwId"
+    >
+        INSERT INTO `sika_pw`(
+            <if test="domainName != null and ''!= domainName">domain_name,</if>
+            <if test="userId != null and ''!= userId">user_id,</if>
+            <if test="account != null and ''!= account">account,</if>
+            <if test="password != null and ''!= password">password,</if>
+            create_by, create_time
+        )VALUES(
+            <if test="domainName != null and ''!= domainName">#{domainName},</if>
+            <if test="userId != null and ''!= userId">#{userId},</if>
+            <if test="account != null and ''!= account">#{account},</if>
+            <if test="password != null and ''!= password">#{password},</if>
+            #{createBy}, sysdate()
+        )
+    </insert>
+
+    <update id="updatePassword">
+        UPDATE `sika_pw`
+        <set>
+            <if test="domainName != null and '' != domainName">`domain_name` = #{domainName},</if>
+            <if test="account != null and '' != account">`account` = #{account},</if>
+            <if test="password != null and '' != password">`password` = #{password},</if>
+            <if test="updateBy != null and '' != updateBy">`update_by` = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        WHERE pw_id = #{pwId}
+    </update>
+
+    <delete id="deletePassword">
+        DELETE FROM sika_pw
+        WHERE pw_id = #{pwId}
+    </delete>
+
     <select id="selectAllPassword" resultType="cc.sika.po.SikaPW">
         <include refid="passwordPO" />
         ORDER BY sika_pw.`user_id`, sika_pw.`pw_id`
     </select>
     <select id="selectUserSavedPassword" resultType="cc.sika.po.SikaPW">
         <include refid="passwordPO" />
-        WHERE `user_id` = #{userId}
+        <where>
+            `user_id` = #{userId}
+            <if test="passwordSearchDTO.domainName != null and passwordSearchDTO.domainName != ''">
+                AND sika_pw.`domain_name` = #{passwordSearchDTO.domainName}
+            </if>
+            <if test="passwordSearchDTO.account != null and passwordSearchDTO.account != ''">
+                AND sika_pw.`account` = #{passwordSearchDTO.account}
+            </if>
+        </where>
+    </select>
+    <select id="likeSelectUserSavedPassword" resultType="cc.sika.po.SikaPW">
+        <include refid="passwordPO" />
+        <where>
+            `user_id` = #{userId}
+            <if test="condition != null and condition != ''">
+                AND sika_pw.`domain_name` LIKE concat('%', #{condition}, '%')
+                OR sika_pw.`account` LIKE concat('%', #{condition}, '%')
+            </if>
+        </where>
     </select>
 
 </mapper>

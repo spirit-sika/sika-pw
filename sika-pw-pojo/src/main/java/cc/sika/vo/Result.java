@@ -56,4 +56,8 @@ public class Result<T> implements Serializable {
         return error(code, "error", data);
     }
 
+    public static <T> Result<T> error() {
+        return new Result<T>(500, "服务器错误", null);
+    }
+
 }

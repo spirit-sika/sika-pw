@@ -1,5 +1,7 @@
 package cc.sika.controller;
 
+import cc.sika.dto.PasswordDTO;
+import cc.sika.dto.PasswordSearchDTO;
 import cc.sika.service.PasswordService;
 import cc.sika.vo.Result;
 import cc.sika.vo.SikaPWVO;
@@ -11,9 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +33,43 @@ public class PasswordController {
     @ApiResponse(content = @Content(schema = @Schema(implementation = PageInfo.class)))
     @GetMapping("list-own")
     @SaCheckLogin
-    public Result<PageInfo<SikaPWVO>> listByUser(int pageNum, int pageSize) {
-        return Result.success(passwordService.listUserPasswords(pageNum, pageSize));
+    public Result<PageInfo<SikaPWVO>> listByUser(PasswordSearchDTO searchDTO) {
+        return Result.success(passwordService.listUserPasswords(searchDTO));
     }
+
+    @Operation(summary = "添加密码")
+    @ApiResponse(content = @Content(schema = @Schema(implementation = String.class)))
+    @PostMapping
+    @SaCheckLogin
+    public Result<String> add(@RequestBody PasswordDTO passwordDTO) {
+        int result = passwordService.addPassword(passwordDTO);
+        if (result == 1) {
+            return Result.success("密码保存成功");
+        }
+        else {
+            return Result.error();
+        }
+    }
+
+    @Operation(summary = "修改密码")
+    @ApiResponse(content = @Content(schema = @Schema(implementation = String.class)))
+    @SaCheckLogin
+    @PutMapping
+    public Result<String> update(@RequestBody PasswordDTO passwordDTO) {
+        int updated = passwordService.updatePassword(passwordDTO);
+        if (updated == 1) {
+            return Result.success("更新成功");
+        }
+        else {
+            return Result.error();
+        }
+    }
+
+    @SaCheckLogin
+    @DeleteMapping
+    public Result<String> delete(@RequestBody Long id) {
+        int i = passwordService.deletePassword(id);
+        return Result.success("成功删除" + i + "条记录");
+    }
+
 }

@@ -34,3 +34,11 @@ export const registerAPI = (user: UserRegisterDTO) => {
         data: user
     })
 }
+
+export const checkLoginAPI = () => {
+    return request<string>({
+        url: 'check-login',
+        method: 'GET',
+        notAuth: false
+    })
+}

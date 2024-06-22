@@ -1,5 +1,6 @@
 package cc.sika;
 
+import cc.sika.dto.PasswordSearchDTO;
 import cc.sika.mapper.SikaPWMapper;
 import cc.sika.po.SikaPW;
 import com.github.pagehelper.PageHelper;
@@ -31,8 +32,33 @@ public class TestSikaPWMapper {
 
     @Test
     void selectUserSavedPasswordTest() {
-        List<SikaPW> passwords = sikaPWMapper.selectUserSavedPassword(4L);
-        assert !passwords.isEmpty();
-        System.out.println("passwords = " + passwords);
+        PageHelper.startPage(1,10);
+        PasswordSearchDTO searchDTO1 = PasswordSearchDTO.builder()
+                .domainName("Nakayama Shino")
+                .account("dHxEzd6zA6")
+                .build();
+        List<SikaPW> password = sikaPWMapper.selectUserSavedPassword(searchDTO1, 4L);
+        assert !password.isEmpty();
+
+        PageHelper.startPage(1,10);
+        PasswordSearchDTO searchDTO2 = PasswordSearchDTO.builder()
+                .domainName("Jin Xiuying")
+                .build();
+        password = sikaPWMapper.selectUserSavedPassword(searchDTO2, 4L);
+        assert !password.isEmpty();
+
+        PageHelper.startPage(1,10);
+        PasswordSearchDTO searchDTO3 = PasswordSearchDTO.builder()
+                .account("hq4bg10UR5")
+                .build();
+        password = sikaPWMapper.selectUserSavedPassword(searchDTO3, 4L);
+        assert !password.isEmpty();
+    }
+
+    @Test
+    void likeSelectUserSavedPasswordTest() {
+        PageHelper.startPage(1,10);
+        List<SikaPW> password = sikaPWMapper.likeSelectUserSavedPassword("TsWPlrOSIj", 3L);
+        assert !password.isEmpty();
     }
 }

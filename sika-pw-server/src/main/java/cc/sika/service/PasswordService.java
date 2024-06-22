@@ -1,5 +1,7 @@
 package cc.sika.service;
 
+import cc.sika.dto.PasswordDTO;
+import cc.sika.dto.PasswordSearchDTO;
 import cc.sika.vo.SikaPWVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -17,5 +19,10 @@ public interface PasswordService {
      */
     PageInfo<SikaPWVO> listAllPasswords(int pageNum, int pageSize);
 
-    PageInfo<SikaPWVO> listUserPasswords(int pageNum, int pageSize);
+    PageInfo<SikaPWVO> listUserPasswords(PasswordSearchDTO searchDTO);
+
+    int addPassword(PasswordDTO passwordDTO);
+    int updatePassword(PasswordDTO passwordDTO);
+
+    int deletePassword(Long id);
 }
