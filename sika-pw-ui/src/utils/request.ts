@@ -15,7 +15,7 @@ interface SikaRequestConfig extends AxiosRequestConfig {
 
 const axiosInstant = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API,
-    timeout: 3600000
+    timeout: 5000
 })
 axiosInstant.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 
