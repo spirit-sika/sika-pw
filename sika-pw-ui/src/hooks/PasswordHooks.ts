@@ -117,6 +117,28 @@ export const usePasswordHooks = () => {
                     }
                 })
         }
+        // 非安全上下文(https协议)无法使用clipboard, 使用dom节点复制
+        else {
+            const inputElement = document.createElement('input');
+            inputElement.value = content
+            inputElement.style.position = 'absolute'
+            inputElement.style.left = '-999999px';
+            document.body.append(inputElement);
+            inputElement.select();
+
+            try {
+                document.execCommand('copy');
+                ElMessage({
+                    type: "success",
+                    message : '复制成功'
+                })
+            } catch (e) {
+                console.log(e)
+                ElMessage({type: "error", message: '复制失败, 请手动复制或更换浏览器重试'})
+            } finally {
+                inputElement.remove()
+            }
+        }
 
     }
 
