@@ -83,7 +83,7 @@ const accountCol = ref<HTMLDivElement>()
         <el-table-column prop="updateTime" label="最后修改时间" align="center"/>
         <el-table-column label="操作" align="center">
           <template #default="scope">
-            <el-button type="primary" @click="copy(`账号: ${scope.row.account}\n密码: ${scope.row.password}`, '账号密码复制成功')">一键复制</el-button>
+            <el-button type="primary" @click="copy(`账号: ${scope.row.account}\r\n密码: ${scope.row.password}`, '账号密码复制成功')">一键复制</el-button>
             <el-button type="primary" @click="handleUpdate(scope.row)">修改</el-button>
             <el-button type="danger" @click="handleDelete(scope.row.pwId, scope.row.account)">删除</el-button>
           </template>
